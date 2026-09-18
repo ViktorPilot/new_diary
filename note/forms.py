@@ -6,16 +6,32 @@ from note.models import Note
 
 
 class NoteForms(forms.ModelForm):
-    """Класс формы для модели заметок"""
 
     class Meta:
-        """Класс метаданных для формы модели заметок"""
-
         model = Note
         fields = ["title", "text", "mood", "energy", "image"]
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
-        """Переопределение метода с добавлением пользовательского стиля"""
         super().__init__(*args, **kwargs)
+
+        self.fields["mood"].widget = forms.Select(
+            choices=[
+                ("😊", "😊"),
+                ("🙂", "🙂"),
+                ("😐", "😐"),
+                ("😔", "😔"),
+                ("😡", "😡"),
+            ]
+        )
+
+        self.fields["energy"].widget = forms.NumberInput(
+            attrs={
+                "min": 1,
+                "max": 10,
+            }
+        )
+
         for field in self.fields:
-            self.fields[field].widget.attrs.update({"class": "form-control", "rows": "3"})
+            self.fields[field].widget.attrs.update({
+                "class": "form-control",
+            })
