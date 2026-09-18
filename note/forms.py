@@ -12,7 +12,7 @@ class NoteForms(forms.ModelForm):
         """Класс метаданных для формы модели заметок"""
 
         model = Note
-
+        fields = ["title", "text", "mood", "energy", "image"]
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Переопределение метода с добавлением пользовательского стиля"""

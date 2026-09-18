@@ -1,0 +1,30 @@
+{% extends 'catalog/base.html' %}
+{% block title %}product_detail{% endblock %}
+{% block content %}
+{% include 'catalog/includes/include_menu.html' %}
+{% load my_tags_blog %}
+
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">My marketplace</h1>
+    <p class="lead">My marketplace - это отличный вариант для покупки высококачественных товаров</p>
+</div>
+<div class="row">
+    <div class="col-3 "></div>
+    <div class="col-6 ">
+        <form class="row g-3" method="post">
+            {% csrf_token %}
+            <div class="text-center">
+                <img src="{{ object.image | media_filter }}" style="height: 300px" class="card-img-top w-auto d-inline-block"
+                     alt="Изображение">
+                <p class=" h4 text-center">Вы уверены, что хотите удалить этот товар</p>
+                <div class="mt-2">
+                <button type="submit" class="btn btn-danger">Удалить</button>
+                <a href="{% url 'catalog:product_detail' object.pk %}">
+                    <button type="button" class="btn btn-primary">Отмена</button>
+                </a></div>
+            </div>
+        </form>
+    </div>
+    <div class="col-3 "></div>
+</div>
+{% endblock %}

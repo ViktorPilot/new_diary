@@ -20,8 +20,8 @@ class RegisterView(CreateView):
     def form_valid(self, form: Any) -> Any:
         """Метод, отправляющий приветственное письмо пользователю после успешной регистрации"""
         user = form.save()
-        subject = "Приветствие от MyMarketplace!"
-        message = "Вы успешно зарегистрировались на сайте MyMarketplace!"
+        subject = "Приветствие от new_diary!"
+        message = "Вы успешно зарегистрировались на сайте new_diary!"
         send_mail(
             subject=subject,
             message=message,
@@ -46,5 +46,5 @@ class UserUpdateView(UpdateView):
 
     model = CustomUser
     form_class = UserModelForm
-    success_url = reverse_lazy("catalog:home")
+    success_url = reverse_lazy("note:home")
     template_name = "users/update_form.html"

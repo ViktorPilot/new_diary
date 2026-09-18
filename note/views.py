@@ -5,39 +5,67 @@ from django.contrib.auth.models import Permission
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
-
+from django.http import Http404
 from note.forms import NoteForms
 from note.models import Note
 
 
-class NoteListView(ListView):
+class NoteListView(LoginRequiredMixin, ListView):
     """Класс контроллера списка заметок"""
 
     model = Note
 
+    def get_queryset(self):
+        """Фильтрует записи текущего пользователя по году и месяцу"""
+
+        queryset = Note.objects.filter(
+            owner=self.request.user
+        )
+
+        year = self.request.GET.get("year")
+        month = self.request.GET.get("month")
+
+        if year:
+            queryset = queryset.filter(date__year=year)
+
+        if month:
+            queryset = queryset.filter(date__month=month)
+
+        return queryset.order_by("-date")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["year"] = self.request.GET.get("year", "2026")
+        context["month"] = self.request.GET.get("month", "")
+
+        return context
 
 class NoteDetailView(LoginRequiredMixin, DetailView):
     """Класс контроллера подробной информации о заметке"""
 
     model = Note
 
+    def get_object(self, queryset=None):
+        """"""
+        obj = super().get_object(queryset)
+        if obj.owner != self.request.user:
+            raise Http404("Object not found")
+        return obj
+
 
 class NoteCreateView(LoginRequiredMixin, CreateView):
-    """Класс контроллера создания новой заметки"""
-
     model = Note
     form_class = NoteForms
 
-
     def get_success_url(self) -> str:
-        """Метод перенаправляет на страницу информации о созданной заметке"""
-        return reverse_lazy("note:note_detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy(
+            "note:note_detail",
+            kwargs={"pk": self.object.pk}
+        )
 
     def form_valid(self, form) -> Any:
-        user = self.request.user
-        form.instance.owner = user
-        if not user.has_perm("note.can_unpublish_note"):
-            raise PermissionDenied
+        form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
@@ -46,7 +74,7 @@ class NoteUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Note
     form_class = NoteForms
-    permission_required = "catalog.change_note"
+    permission_required = "note.change_note"
 
     def form_valid(self, form) -> Any:
         """Метод ограничивает права доступа для изменения заметки всех пользователей, кроме владельца"""
@@ -71,7 +99,7 @@ class NoteDeleteView(LoginRequiredMixin, DeleteView):
     permission_required = "note.delete_note"
 
     def post(self, request, *args, **kwargs):
-        """Метод ограничивает права доступа для удаления товаров всех пользователей кроме владельца товара"""
+        """Метод ограничивает права доступа для удаления товаров всех пользователей кроме владельца заметки"""
         user = self.request.user
         obj = self.get_object()
         if user.email == obj.owner.email:

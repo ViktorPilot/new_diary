@@ -1,0 +1,388 @@
+{% extends "note/base.html" %}
+
+{% block title %}Мой дневник{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- Заголовок -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="fw-semibold mb-1">
+                Мой дневник
+            </h1>
+
+            <p class="text-secondary mb-0">
+                Мои мысли, события и воспоминания
+            </p>
+
+            {% if user.is_authenticated %}
+                <p class="text-secondary small mb-0 mt-1">
+                    {{ user.email }}
+                </p>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'note:add_note' %}"
+           class="btn btn-primary">
+            + Новая запись
+        </a>
+
+    </div>
+
+
+    <!-- Выбор года -->
+
+    <div class="mb-3">
+
+        <p class="form-label fw-semibold">
+            Год
+        </p>
+
+        <div class="d-flex gap-2">
+
+            {% if year == "2026" %}
+                <a href="?year=2026"
+                   class="btn btn-primary">
+                    2026
+                </a>
+            {% else %}
+                <a href="?year=2026"
+                   class="btn btn-outline-secondary">
+                    2026
+                </a>
+            {% endif %}
+
+
+            {% if year == "2025" %}
+                <a href="?year=2025"
+                   class="btn btn-primary">
+                    2025
+                </a>
+            {% else %}
+                <a href="?year=2025"
+                   class="btn btn-outline-secondary">
+                    2025
+                </a>
+            {% endif %}
+
+
+            {% if year == "2024" %}
+                <a href="?year=2024"
+                   class="btn btn-primary">
+                    2024
+                </a>
+            {% else %}
+                <a href="?year=2024"
+                   class="btn btn-outline-secondary">
+                    2024
+                </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Выбор месяца -->
+
+    <div class="mb-4">
+
+        <p class="form-label fw-semibold">
+            Месяц
+        </p>
+
+        <div class="d-flex flex-wrap gap-2">
+
+            {% if month == "1" %}
+                <a href="?year={{ year }}&month=1"
+                   class="btn btn-primary">
+                    Янв
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=1"
+                   class="btn btn-outline-secondary">
+                    Янв
+                </a>
+            {% endif %}
+
+
+            {% if month == "2" %}
+                <a href="?year={{ year }}&month=2"
+                   class="btn btn-primary">
+                    Фев
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=2"
+                   class="btn btn-outline-secondary">
+                    Фев
+                </a>
+            {% endif %}
+
+
+            {% if month == "3" %}
+                <a href="?year={{ year }}&month=3"
+                   class="btn btn-primary">
+                    Мар
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=3"
+                   class="btn btn-outline-secondary">
+                    Мар
+                </a>
+            {% endif %}
+
+
+            {% if month == "4" %}
+                <a href="?year={{ year }}&month=4"
+                   class="btn btn-primary">
+                    Апр
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=4"
+                   class="btn btn-outline-secondary">
+                    Апр
+                </a>
+            {% endif %}
+
+
+            {% if month == "5" %}
+                <a href="?year={{ year }}&month=5"
+                   class="btn btn-primary">
+                    Май
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=5"
+                   class="btn btn-outline-secondary">
+                    Май
+                </a>
+            {% endif %}
+
+
+            {% if month == "6" %}
+                <a href="?year={{ year }}&month=6"
+                   class="btn btn-primary">
+                    Июн
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=6"
+                   class="btn btn-outline-secondary">
+                    Июн
+                </a>
+            {% endif %}
+
+
+            {% if month == "7" %}
+                <a href="?year={{ year }}&month=7"
+                   class="btn btn-primary">
+                    Июл
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=7"
+                   class="btn btn-outline-secondary">
+                    Июл
+                </a>
+            {% endif %}
+
+
+            {% if month == "8" %}
+                <a href="?year={{ year }}&month=8"
+                   class="btn btn-primary">
+                    Авг
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=8"
+                   class="btn btn-outline-secondary">
+                    Авг
+                </a>
+            {% endif %}
+
+
+            {% if month == "9" %}
+                <a href="?year={{ year }}&month=9"
+                   class="btn btn-primary">
+                    Сен
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=9"
+                   class="btn btn-outline-secondary">
+                    Сен
+                </a>
+            {% endif %}
+
+
+            {% if month == "10" %}
+                <a href="?year={{ year }}&month=10"
+                   class="btn btn-primary">
+                    Окт
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=10"
+                   class="btn btn-outline-secondary">
+                    Окт
+                </a>
+            {% endif %}
+
+
+            {% if month == "11" %}
+                <a href="?year={{ year }}&month=11"
+                   class="btn btn-primary">
+                    Ноя
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=11"
+                   class="btn btn-outline-secondary">
+                    Ноя
+                </a>
+            {% endif %}
+
+
+            {% if month == "12" %}
+                <a href="?year={{ year }}&month=12"
+                   class="btn btn-primary">
+                    Дек
+                </a>
+            {% else %}
+                <a href="?year={{ year }}&month=12"
+                   class="btn btn-outline-secondary">
+                    Дек
+                </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Записи -->
+
+    <div class="row">
+
+        {% for note in object_list %}
+
+            <div class="col-12 mb-2">
+
+                <div class="card shadow-sm">
+
+                    <div class="card-body p-2">
+
+                        <div class="row align-items-start">
+
+                            <!-- Фото -->
+
+                            {% if note.image %}
+
+                                <div class="col-auto">
+
+                                    <img src="{{ note.image.url }}"
+                                         class="rounded"
+                                         width="128"
+                                         height="128"
+                                         alt="Изображение записи">
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- Информация -->
+
+                            <div class="col">
+
+                                <div class="text-secondary small mb-1">
+                                    {{ note.date|date:"d.m.Y" }}
+                                </div>
+
+                                <h6 class="card-title mb-1">
+                                    {{ note.title }}
+                                </h6>
+
+                                <p class="card-text small mb-1">
+                                    {{ note.text|truncatewords:15 }}
+                                </p>
+
+
+                                {% if note.mood %}
+
+                                    <span class="badge bg-light text-dark border small">
+                                        {{ note.mood }}
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- Кнопки -->
+
+                            <div class="col-auto">
+
+                                <div class="d-flex flex-column gap-1">
+
+                                    <a href="{% url 'note:note_detail' note.pk %}"
+                                       class="btn btn-outline-primary"
+                                       style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">
+                                        Подробнее
+                                    </a>
+
+                                    <a href="{% url 'note:update_note' note.pk %}"
+                                       class="btn btn-outline-secondary"
+                                       style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">
+                                        Редактировать
+                                    </a>
+
+                                    <a href="{% url 'note:delete_note' note.pk %}"
+                                       class="btn btn-outline-danger"
+                                       style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">
+                                        Удалить
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="col-12">
+
+                <div class="card border-0 bg-light text-center py-5">
+
+                    <div class="card-body">
+
+                        <h4 class="mb-3">
+                            В этом месяце записей пока нет
+                        </h4>
+
+                        <p class="text-secondary mb-4">
+                            Создай первую запись в своём дневнике.
+                        </p>
+
+                        <a href="{% url 'note:add_note' %}"
+                           class="btn btn-primary">
+                            + Новая запись
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
