@@ -5,7 +5,7 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    """Класс информации о пользователе"""
+    """Класс модели пользователе"""
 
     username = None
     email = models.EmailField(verbose_name="email", unique=True)

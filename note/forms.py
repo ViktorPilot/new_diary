@@ -6,12 +6,13 @@ from note.models import Note
 
 
 class NoteForms(forms.ModelForm):
-
+    """Класс формы записей дневника"""
     class Meta:
         model = Note
         fields = ["title", "text", "mood", "energy", "image"]
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Метод инициализации полей записи дневника"""
         super().__init__(*args, **kwargs)
 
         self.fields["mood"].widget = forms.Select(

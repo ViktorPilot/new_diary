@@ -1,71 +1,50 @@
 {% extends "note/base.html" %}
-
 {% block title %}
-    {% if object %}
-        Редактирование записи
-    {% else %}
-        Новая запись
-    {% endif %}
+{% if object %}
+Редактирование записи
+{% else %}
+Новая запись
+{% endif %}
 {% endblock %}
-
 {% block content %}
-
 <div class="container">
-
     <div class="mb-4">
         {% if object %}
-            <h1 class="fw-semibold mb-1">
-                Редактирование записи
-            </h1>
-
-            <p class="text-secondary mb-0">
-                Измени свою запись в дневнике
-            </p>
+        <h1 class="fw-semibold mb-1">
+            Редактирование записи
+        </h1>
+        <p class="text-secondary mb-0">
+            Измени свою запись в дневнике
+        </p>
         {% else %}
-            <h1 class="fw-semibold mb-1">
-                Новая запись
-            </h1>
-
-            <p class="text-secondary mb-0">
-                Запиши свои мысли и события
-            </p>
+        <h1 class="fw-semibold mb-1">
+            Новая запись
+        </h1>
+        <p class="text-secondary mb-0">
+            Запиши свои мысли и события
+        </p>
         {% endif %}
     </div>
-
-
     <div class="card shadow-sm">
-
         <div class="card-body">
-
             <form method="post" enctype="multipart/form-data">
-
                 {% csrf_token %}
-
                 {{ form.as_p }}
-
                 <div class="mt-4 d-flex gap-2">
-
                     <button type="submit" class="btn btn-primary">
                         {% if object %}
-                            Сохранить изменения
+                        Сохранить изменения
                         {% else %}
-                            Сохранить запись
+                        Сохранить запись
                         {% endif %}
                     </button>
-
                     <a href="{% url 'note:home' %}"
                        class="btn btn-outline-secondary">
                         Отмена
                     </a>
-
                 </div>
-
             </form>
-
         </div>
-
     </div>
-
 </div>
-
 {% endblock %}

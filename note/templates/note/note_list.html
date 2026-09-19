@@ -1,28 +1,17 @@
 {% extends "note/base.html" %}
-
 {% block title %}Мой дневник{% endblock %}
-
 {% block content %}
-
 <div class="container">
-
-    <!-- Заголовок -->
-
     <div class="d-flex justify-content-between align-items-center mb-3">
-
         <div>
             <h1 class="fw-semibold mb-1">
                 Мой дневник
             </h1>
-
             <p class="text-secondary mb-0">
                 Мои мысли, события и воспоминания
             </p>
-
             <form method="get" class="mb-3">
-
                 <div class="d-flex gap-2" style="width: 800px; max-width: 100%;">
-
                     <input
                             type="search"
                             name="search"
@@ -31,22 +20,18 @@
                             placeholder="Поиск по заголовку или тексту..."
                             style="min-width: 0; flex: 1 1 auto;"
                     >
-
                     {% if year %}
                     <input type="hidden" name="year" value="{{ year }}">
                     {% endif %}
-
                     {% if month %}
                     <input type="hidden" name="month" value="{{ month }}">
                     {% endif %}
-
                     <button
                             type="submit"
                             class="btn btn-outline-primary"
                     >
                         Найти
                     </button>
-
                     {% if request.GET.search %}
                     <a
                             href="?year={{ year }}{% if month %}&month={{ month }}{% endif %}"
@@ -55,34 +40,20 @@
                         Очистить
                     </a>
                     {% endif %}
-
                 </div>
-
             </form>
         </div>
-
         <a href="{% url 'note:add_note' %}"
            class="btn btn-primary">
             + Новая запись
         </a>
-
     </div>
-
-
-    <!-- Выбор периода -->
-
     <div class="mb-3">
-
-        <!-- Год -->
-
         <div class="d-flex align-items-center gap-2 mb-2">
-
             <span class="small fw-semibold">
                 Год:
             </span>
-
             <div class="d-flex gap-1">
-
                 {% if year == "2026" %}
                 <a href="?year=2026"
                    class="btn btn-primary btn-sm">
@@ -94,8 +65,6 @@
                     2026
                 </a>
                 {% endif %}
-
-
                 {% if year == "2025" %}
                 <a href="?year=2025"
                    class="btn btn-primary btn-sm">
@@ -107,8 +76,6 @@
                     2025
                 </a>
                 {% endif %}
-
-
                 {% if year == "2024" %}
                 <a href="?year=2024"
                    class="btn btn-primary btn-sm">
@@ -120,22 +87,13 @@
                     2024
                 </a>
                 {% endif %}
-
             </div>
-
         </div>
-
-
-        <!-- Месяц -->
-
         <div class="d-flex align-items-center gap-2">
-
             <span class="small fw-semibold">
                 Месяц:
             </span>
-
             <div class="d-flex flex-wrap gap-1">
-
                 {% if month == "1" %}
                 <a href="?year={{ year }}&month=1"
                    class="btn btn-primary btn-sm">
@@ -147,8 +105,6 @@
                     Янв
                 </a>
                 {% endif %}
-
-
                 {% if month == "2" %}
                 <a href="?year={{ year }}&month=2"
                    class="btn btn-primary btn-sm">
@@ -160,8 +116,6 @@
                     Фев
                 </a>
                 {% endif %}
-
-
                 {% if month == "3" %}
                 <a href="?year={{ year }}&month=3"
                    class="btn btn-primary btn-sm">
@@ -173,8 +127,6 @@
                     Мар
                 </a>
                 {% endif %}
-
-
                 {% if month == "4" %}
                 <a href="?year={{ year }}&month=4"
                    class="btn btn-primary btn-sm">
@@ -186,8 +138,6 @@
                     Апр
                 </a>
                 {% endif %}
-
-
                 {% if month == "5" %}
                 <a href="?year={{ year }}&month=5"
                    class="btn btn-primary btn-sm">
@@ -199,8 +149,6 @@
                     Май
                 </a>
                 {% endif %}
-
-
                 {% if month == "6" %}
                 <a href="?year={{ year }}&month=6"
                    class="btn btn-primary btn-sm">
@@ -212,8 +160,6 @@
                     Июн
                 </a>
                 {% endif %}
-
-
                 {% if month == "7" %}
                 <a href="?year={{ year }}&month=7"
                    class="btn btn-primary btn-sm">
@@ -225,8 +171,6 @@
                     Июл
                 </a>
                 {% endif %}
-
-
                 {% if month == "8" %}
                 <a href="?year={{ year }}&month=8"
                    class="btn btn-primary btn-sm">
@@ -238,8 +182,6 @@
                     Авг
                 </a>
                 {% endif %}
-
-
                 {% if month == "9" %}
                 <a href="?year={{ year }}&month=9"
                    class="btn btn-primary btn-sm">
@@ -251,8 +193,6 @@
                     Сен
                 </a>
                 {% endif %}
-
-
                 {% if month == "10" %}
                 <a href="?year={{ year }}&month=10"
                    class="btn btn-primary btn-sm">
@@ -264,8 +204,6 @@
                     Окт
                 </a>
                 {% endif %}
-
-
                 {% if month == "11" %}
                 <a href="?year={{ year }}&month=11"
                    class="btn btn-primary btn-sm">
@@ -277,8 +215,6 @@
                     Ноя
                 </a>
                 {% endif %}
-
-
                 {% if month == "12" %}
                 <a href="?year={{ year }}&month=12"
                    class="btn btn-primary btn-sm">
@@ -290,147 +226,88 @@
                     Дек
                 </a>
                 {% endif %}
-
             </div>
-
         </div>
-
     </div>
-
-
-    <!-- Записи -->
-
     <div class="row">
-
         {% for note in object_list %}
-
         <div class="col-12 mb-2">
-
             <div class="card shadow-sm">
-
                 <div class="card-body p-2">
-
                     <div class="row align-items-start">
-
-                        <!-- Фото -->
-
                         {% if note.image %}
-
                         <div class="col-auto">
-
                             <img src="{{ note.image.url }}"
                                  class="rounded"
                                  width="128"
                                  height="128"
                                  alt="Изображение записи">
-
                         </div>
-
                         {% endif %}
-
-
-                        <!-- Информация -->
-
                         <div class="col">
-
                             <div class="text-secondary small mb-1">
                                 {{ note.date|date:"d.m.Y" }}
                             </div>
-
                             <h6 class="card-title mb-1">
                                 {{ note.title }}
                             </h6>
-
                             <p class="card-text small mb-1">
                                 {{ note.text|slice:":90" }}{% if note.text|length > 90 %}...{% endif %}
                             </p>
-
                             <div class="d-flex align-items-center gap-3 mt-2">
-
                                 {% if note.mood %}
                                 <span class="fs-5">
             {{ note.mood }}
         </span>
                                 {% endif %}
-
                                 {% if note.energy %}
                                 <span class="small text-secondary">
             Энергия: {{ note.energy }}/10
         </span>
                                 {% endif %}
-
                             </div>
-
                         </div>
-
-
-                        <!-- Кнопки -->
-
                         <div class="col-auto">
-
                             <div class="d-flex flex-column gap-1">
-
                                 <a href="{% url 'note:note_detail' note.pk %}"
                                    class="btn btn-outline-primary"
                                    style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">
                                     Подробнее
                                 </a>
-
                                 <a href="{% url 'note:update_note' note.pk %}"
                                    class="btn btn-outline-secondary"
                                    style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">
                                     Редактировать
                                 </a>
-
                                 <a href="{% url 'note:delete_note' note.pk %}"
                                    class="btn btn-outline-danger"
                                    style="font-size: 0.75rem; padding: 0.2rem 0.5rem;">
                                     Удалить
                                 </a>
-
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
         {% empty %}
-
         <div class="col-12">
-
             <div class="card border-0 bg-light text-center py-5">
-
                 <div class="card-body">
-
                     <h4 class="mb-3">
                         В этом месяце записей пока нет
                     </h4>
-
                     <p class="text-secondary mb-4">
                         Создай первую запись в своём дневнике.
                     </p>
-
                     <a href="{% url 'note:add_note' %}"
                        class="btn btn-primary">
                         + Новая запись
                     </a>
-
                 </div>
-
             </div>
-
         </div>
-
         {% endfor %}
-
     </div>
-
 </div>
-
 {% endblock %}

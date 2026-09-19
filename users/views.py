@@ -22,7 +22,7 @@ class RegisterView(CreateView):
         """Метод, отправляющий приветственное письмо пользователю после успешной регистрации"""
         user = form.save()
         subject = "Приветствие от new_diary!"
-        message = "Вы успешно зарегистрировались на сайте new_diary!"
+        message = "Вы успешно зарегистрировались в приложении new_diary!"
         send_mail(
             subject=subject,
             message=message,

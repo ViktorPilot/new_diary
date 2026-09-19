@@ -4,7 +4,7 @@ from users.models import CustomUser
 
 
 class Note(models.Model):
-    """Класс заметки"""
+    """Класс модели заметки"""
     title = models.CharField(max_length=200, verbose_name="название заметки", )
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="note")
     date = models.DateField(auto_now_add=True, verbose_name="дата создания записи")
