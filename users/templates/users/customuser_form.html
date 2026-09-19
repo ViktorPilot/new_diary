@@ -1,11 +1,10 @@
 {% extends 'note/base.html' %}
 {% block title %}note_detail{% endblock %}
 {% block content %}
-{% include 'note/includes/include_menu.html' %}
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">My marketplace</h1>
-    <p class="lead">My marketplace - это отличный вариант для покупки высококачественных товаров</p>
+    <h1 class="display-4">New_diary</h1>
+    <p class="lead">New_diary - это отличный вариант для ведения личного дневника</p>
 </div>
 <div class="row">
     <div class="col-3 "></div>
@@ -21,6 +20,11 @@
                     {{ form.non_field_errors }}
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                        <a href="{% url 'users:login' %}"
+                           class="btn btn-outline-secondary"
+                           style="font-size: 1.00rem; padding: 0.4rem 0.5rem;">
+                            Назад
+                        </a>
                     </div>
                 </form>
             </div>

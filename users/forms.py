@@ -26,7 +26,7 @@ class CustomCreationForm(StyleMixin, UserCreationForm):
         """Класс метаданных для формы создания нового пользователя"""
 
         model = CustomUser
-        fields = ("email", "password1", "password2")
+        fields = ("email", "phone_number", "country", "avatar", "password1", "password2")
 
 
 class UserAuthenticationForm(StyleMixin, AuthenticationForm):
@@ -37,13 +37,3 @@ class UserAuthenticationForm(StyleMixin, AuthenticationForm):
 
         model = CustomUser
         fields = ("email", "password")
-
-
-class UserModelForm(StyleMixin, forms.ModelForm):
-    """Класс формы для обновления информации о пользователе"""
-
-    class Meta:
-        """Класс метаданных для формы обновления информации о пользователе"""
-
-        model = CustomUser
-        fields = ("email", "avatar", "phone_number", "country")

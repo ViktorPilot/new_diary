@@ -19,7 +19,13 @@
                     {{ form.as_p }}
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Войти</button>
+                        <a href="{% url 'users:register' %}"
+                           class="btn btn-outline-secondary"
+                           style="font-size: 1.00rem; padding: 0.4rem 0.5rem;">
+                            Зарегистрироваться
+                        </a>
                     </div>
+
                 </form>
             </div>
         </div>

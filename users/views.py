@@ -3,10 +3,11 @@ from typing import Any
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from config.settings import EMAIL_HOST_USER
-from users.forms import CustomCreationForm, UserAuthenticationForm, UserModelForm
+from users.forms import CustomCreationForm, UserAuthenticationForm
 from users.models import CustomUser
 
 
@@ -40,11 +41,13 @@ class CustomLoginView(LoginView):
     form_class = UserAuthenticationForm
     template_name = "users/login.html"
 
-
-class UserUpdateView(UpdateView):
-    """Класс контроллера выхода пользователя из аккаунта"""
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    """Удаляет аккаунт текущего пользователя."""
 
     model = CustomUser
-    form_class = UserModelForm
-    success_url = reverse_lazy("note:home")
-    template_name = "users/update_form.html"
+    template_name = "users/user_confirm_delete.html"
+    success_url = reverse_lazy("users:login")
+
+    def get_object(self, queryset=None):
+        """Возвращает только аккаунт текущего пользователя."""
+        return self.request.user

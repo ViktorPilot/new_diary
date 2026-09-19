@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from django.http import Http404
+from django.db.models import Q
 from note.forms import NoteForms
 from note.models import Note
 
@@ -16,7 +17,7 @@ class NoteListView(LoginRequiredMixin, ListView):
     model = Note
 
     def get_queryset(self):
-        """Фильтрует записи текущего пользователя по году и месяцу"""
+        """Фильтрует записи пользователя по году, месяцу и поисковому запросу."""
 
         queryset = Note.objects.filter(
             owner=self.request.user
@@ -24,12 +25,19 @@ class NoteListView(LoginRequiredMixin, ListView):
 
         year = self.request.GET.get("year")
         month = self.request.GET.get("month")
+        search = self.request.GET.get("search")
 
         if year:
             queryset = queryset.filter(date__year=year)
 
         if month:
             queryset = queryset.filter(date__month=month)
+
+        if search:
+            queryset = queryset.filter(
+                Q(title__icontains=search)
+                | Q(text__icontains=search)
+            )
 
         return queryset.order_by("-date")
 
