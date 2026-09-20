@@ -5,13 +5,29 @@ from users.models import CustomUser
 
 class Note(models.Model):
     """Класс модели заметки"""
-    title = models.CharField(max_length=200, verbose_name="название заметки", )
+
+    title = models.CharField(
+        max_length=200,
+        verbose_name="название заметки",
+    )
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="note")
     date = models.DateField(auto_now_add=True, verbose_name="дата создания записи")
-    text = models.TextField(verbose_name="текст заметки",)
-    mood = models.CharField(max_length=20, verbose_name="настроение",)
-    energy = models.PositiveSmallIntegerField(verbose_name="энергия",)
-    image = models.ImageField(upload_to="note/image/", blank=True, null=True, verbose_name="картинка",)
+    text = models.TextField(
+        verbose_name="текст заметки",
+    )
+    mood = models.CharField(
+        max_length=20,
+        verbose_name="настроение",
+    )
+    energy = models.PositiveSmallIntegerField(
+        verbose_name="энергия",
+    )
+    image = models.ImageField(
+        upload_to="note/image/",
+        blank=True,
+        null=True,
+        verbose_name="картинка",
+    )
 
     def __str__(self) -> str:
         """Магический метод, возвращающий название заметки"""

@@ -3,10 +3,11 @@ from typing import Any
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Permission
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
+from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
-from django.http import Http404
-from django.db.models import Q
+
 from note.forms import NoteForms
 from note.models import Note
 
@@ -19,9 +20,7 @@ class NoteListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         """Фильтрует записи пользователя по году, месяцу и поисковому запросу"""
 
-        queryset = Note.objects.filter(
-            owner=self.request.user
-        )
+        queryset = Note.objects.filter(owner=self.request.user)
 
         year = self.request.GET.get("year")
         month = self.request.GET.get("month")
@@ -34,10 +33,7 @@ class NoteListView(LoginRequiredMixin, ListView):
             queryset = queryset.filter(date__month=month)
 
         if search:
-            queryset = queryset.filter(
-                Q(title__icontains=search)
-                | Q(text__icontains=search)
-            )
+            queryset = queryset.filter(Q(title__icontains=search) | Q(text__icontains=search))
 
         return queryset.order_by("-date")
 
@@ -49,6 +45,7 @@ class NoteListView(LoginRequiredMixin, ListView):
         context["month"] = self.request.GET.get("month", "")
 
         return context
+
 
 class NoteDetailView(LoginRequiredMixin, DetailView):
     """Класс контроллера подробной информации о заметке"""
@@ -65,15 +62,13 @@ class NoteDetailView(LoginRequiredMixin, DetailView):
 
 class NoteCreateView(LoginRequiredMixin, CreateView):
     """Класс контроллера создания новой заметки"""
+
     model = Note
     form_class = NoteForms
 
     def get_success_url(self) -> str:
         """Метод перенаправляет на страницу информации о созданной заметке"""
-        return reverse_lazy(
-            "note:note_detail",
-            kwargs={"pk": self.object.pk}
-        )
+        return reverse_lazy("note:note_detail", kwargs={"pk": self.object.pk})
 
     def form_valid(self, form) -> Any:
         """Метод записывает в создаваемую заметку текущего пользователя"""
@@ -96,7 +91,6 @@ class NoteUpdateView(LoginRequiredMixin, UpdateView):
             user.user_permissions.add(change_note)
             return super().form_valid(form)
         raise PermissionDenied
-
 
     def get_success_url(self) -> str:
         """Метод перенаправляет на страницу информации об обновленной заметке"""

@@ -12,26 +12,24 @@
 + pillow 12.3.0
 + psycopg-2-binary 2.9.13
 + python-dotenv 1.2.3
++ Docker / Docker Compose
 Все контроллеры имеют способ определения и обработки представлений в Django с помощью классов(метод CBV).
 
 ## Установка:
+### При работе через DOCKER:
 
-1. Клонируйте репозиторий:
+1. Перед запуском установите Docker Desktop по ссылке `https://www.docker.com/products/docker-desktop` для WINDOWS, 
+`https://docs.docker.com/engine/install/ubuntu/` для Linux.
+2. Клонируйте репозиторий:
     ```
      https://github.com/ViktorPilot/new_diary.git
     ```
-2. Запустите PyCharm у себя на компьютере.
-3. Откройте скачанный репозиторий в PyCharm.
-4. Создайте виртуальное окружение командой `poetry install`.
-5. Активируйте ВО командой `poetry env activate`.
-6. Установите зависимости командой `poetry init`.
-7. Программа готова к работе.
+3. Создайте и заполните файл `.env`.
+4. Запустите Docker Compose `docker compose up --build`.
+5. Проверьте состояние контейнеров `docker compose ps`.
+6. После запуска контейнера приложение доступно по адресу: `http://localhost:8000`.
+7. Далее выполняйте работу с `note` и `users`.
 
-## Запуск локального сервера:
-
-1. Для запуска локального сервера у себя на компьютере необходимо в терминале ввести команду:
-`python manage.py runserver 8000`(для Windows), `python3 manage.py runserver 8000`(для Unix-систем), 
-где крайним значением указан порт запускаемого сервера.
 
 ## Порядок работы со страницами браузера приложения `note`:
 

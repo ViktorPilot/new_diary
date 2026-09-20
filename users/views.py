@@ -1,10 +1,10 @@
 from typing import Any
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 from config.settings import EMAIL_HOST_USER
 from users.forms import CustomCreationForm, UserAuthenticationForm
@@ -40,6 +40,7 @@ class CustomLoginView(LoginView):
     model = CustomUser
     form_class = UserAuthenticationForm
     template_name = "users/login.html"
+
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     """Удаляет аккаунт текущего пользователя."""

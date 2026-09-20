@@ -7,6 +7,7 @@ from note.models import Note
 
 class NoteForms(forms.ModelForm):
     """Класс формы записей дневника"""
+
     class Meta:
         model = Note
         fields = ["title", "text", "mood", "energy", "image"]
@@ -33,6 +34,8 @@ class NoteForms(forms.ModelForm):
         )
 
         for field in self.fields:
-            self.fields[field].widget.attrs.update({
-                "class": "form-control",
-            })
+            self.fields[field].widget.attrs.update(
+                {
+                    "class": "form-control",
+                }
+            )
