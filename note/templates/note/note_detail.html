@@ -1,0 +1,47 @@
+{% extends "note/base.html" %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="mb-4">
+        <a href="{% url 'note:home' %}"
+           class="btn btn-outline-secondary btn-sm">
+            ← К дневнику
+        </a>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="text-secondary small mb-2">
+                {{ object.date|date:"d.m.Y" }}
+            </div>
+            <h1 class="fw-semibold mb-3">
+                {{ object.title }}
+            </h1>
+            {% if object.mood %}
+            <span class="badge bg-light text-dark border mb-3">
+                    {{ object.mood }}
+                </span>
+            {% endif %}
+            <div class="mb-4">
+                {{ object.text|linebreaks }}
+            </div>
+            {% if object.image %}
+            <div class="mb-4">
+                <img src="{{ object.image.url }}"
+                     class="img-fluid rounded"
+                     alt="Изображение записи">
+            </div>
+            {% endif %}
+            <div class="d-flex gap-2">
+                <a href="{% url 'note:update_note' object.pk %}"
+                   class="btn btn-outline-secondary">
+                    Редактировать
+                </a>
+                <a href="{% url 'note:delete_note' object.pk %}"
+                   class="btn btn-outline-danger">
+                    Удалить
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
