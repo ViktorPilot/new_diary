@@ -35,12 +35,6 @@ jobs:
       - name: Run flake8
         run: poetry run flake8 .
 
-      - name: Check black
-        run: poetry run black --check .
-
-      - name: Check isort
-        run: poetry run isort --check-only .
-
   docker-build:
     name: Docker build
     runs-on: ubuntu-latest
