@@ -12,6 +12,13 @@ from note.forms import NoteForms
 from note.models import Note
 
 
+class OwnerNoteQuerysetMixin:
+    """Ограничивает работу заметками текущего пользователя."""
+
+    def get_queryset(self):
+        return super().get_queryset().filter(owner=self.request.user)
+
+
 class NoteListView(LoginRequiredMixin, ListView):
     """Класс контроллера списка заметок"""
 
@@ -47,17 +54,10 @@ class NoteListView(LoginRequiredMixin, ListView):
         return context
 
 
-class NoteDetailView(LoginRequiredMixin, DetailView):
+class NoteDetailView(LoginRequiredMixin, OwnerNoteQuerysetMixin, DetailView):
     """Класс контроллера подробной информации о заметке"""
 
     model = Note
-
-    def get_object(self, queryset=None):
-        """Метод запрещает доступ к заметкам других пользователей"""
-        obj = super().get_object(queryset)
-        if obj.owner != self.request.user:
-            raise Http404("Object not found")
-        return obj
 
 
 class NoteCreateView(LoginRequiredMixin, CreateView):
@@ -76,40 +76,19 @@ class NoteCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class NoteUpdateView(LoginRequiredMixin, UpdateView):
+class NoteUpdateView(LoginRequiredMixin, OwnerNoteQuerysetMixin, UpdateView):
     """Класс контроллера обновления заметки"""
 
     model = Note
     form_class = NoteForms
-    permission_required = "note.change_note"
-
-    def form_valid(self, form) -> Any:
-        """Метод ограничивает права доступа для изменения чужих заметок"""
-        user = self.request.user
-        if user == form.instance.owner:
-            change_note = Permission.objects.get(codename="change_note")
-            user.user_permissions.add(change_note)
-            return super().form_valid(form)
-        raise PermissionDenied
 
     def get_success_url(self) -> str:
         """Метод перенаправляет на страницу информации об обновленной заметке"""
         return reverse_lazy("note:note_detail", kwargs={"pk": self.object.pk})
 
 
-class NoteDeleteView(LoginRequiredMixin, DeleteView):
+class NoteDeleteView(LoginRequiredMixin, OwnerNoteQuerysetMixin, DeleteView):
     """Класс контроллера удаления заметки"""
 
     model = Note
     success_url = reverse_lazy("note:home")
-    permission_required = "note.delete_note"
-
-    def post(self, request, *args, **kwargs):
-        """Метод ограничивает права доступа для удаления чужих заметок"""
-        user = self.request.user
-        obj = self.get_object()
-        if user.email == obj.owner.email:
-            delete_note = Permission.objects.get(codename="delete_note")
-            user.user_permissions.add(delete_note)
-            return super().post(request, *args, **kwargs)
-        raise PermissionDenied
